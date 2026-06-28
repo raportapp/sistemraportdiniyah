@@ -1,0 +1,16 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Aturan untuk collection students
+    match /students/{documentId} {
+      // Hanya izinkan jika documentId == field 'nis'
+      allow write: if request.resource.data.nis == documentId;
+      allow read: if true;
+    }
+    
+    // Aturan untuk collection lain (subjects, teachers, users, dll)
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}
